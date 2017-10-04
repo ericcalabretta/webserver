@@ -7,8 +7,17 @@ package 'httpd' do
   action :install
 end
 
-file '/var/www/html/index.html' do
-  content '<h1>Hello, world!</h1>'
+# file '/var/www/html/index.html' do
+# end
+
+template '/var/www/html/index.html' do
+  source 'index.html.erb'
+end
+
+template '/etc/httpd/conf/httpd.conf' do
+  action :create
+  source 'httpd.conf.erb'
+  notifies :restart, 'service[httpd]'
 end
 
 service 'httpd' do
